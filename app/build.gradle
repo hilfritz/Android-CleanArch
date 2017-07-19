@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+apply from: "${project.rootDir}/QA/quality.gradle"
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.kodelabs.boilerplate"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // general
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:4.1.0'
+
+    // network
+    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+
+    // tests
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:1.+"
+
+    /**
+     * TESTS
+     * https://stackoverflow.com/questions/40696796/android-how-to-use-espresso-2-2-2-with-support-25-0-0
+     */
+    testCompile 'org.mockito:mockito-core:2.+'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.2.2'
+    testCompile('org.robolectric:shadows-support-v4:3.0') {
+        exclude module: 'support-v4'
+    }
+    androidTestCompile "com.android.support:support-annotations:$android_support_version"
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude module: 'rules'
+        exclude module: 'javax.annotation-api'
+        exclude module: 'support-annotations'
+    })
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2'){
+        exclude module: 'espresso-core'
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-annotations'
+        exclude module: 'design'
+    }
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile('com.android.support.test:rules:0.5') {
+        exclude module: 'support-annotations'
+    }
+}
